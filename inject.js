@@ -1,4 +1,5 @@
-function responder() {
+const button = document.getElementById("Responder");
+button.addEventListener("click", () => {
     var questaoId = $('#questaoID').val();
     var jarvisItemId = $('#jarvisItemId').val();
     var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
@@ -25,4 +26,5 @@ function responder() {
         console.log('Resposta computada, passando para proxima');
     });
 }
+});
 console.log('Script injetado com sucesso')
