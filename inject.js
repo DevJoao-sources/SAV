@@ -25,6 +25,5 @@ button.addEventListener("click", () => {
         reponderQuestao();
         console.log('Resposta computada, passando para proxima');
     });
-}
 });
 console.log('Script injetado com sucesso')
