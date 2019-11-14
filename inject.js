@@ -25,3 +25,4 @@ function responder() {
         console.log('Resposta computada, passando para proxima');
     });
 }
+onsole.log('Script injetado com sucesso);
