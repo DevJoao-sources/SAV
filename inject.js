@@ -1,4 +1,4 @@
-const button = document.getElementById("Responder");
+const button = document.getElementById("cResponder");
 button.addEventListener("click", () => {
     var questaoId = $('#questaoID').val();
     var jarvisItemId = $('#jarvisItemId').val();
