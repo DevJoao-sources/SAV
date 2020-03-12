@@ -4,7 +4,10 @@ const createCustomElement = (tag, style) => {
   return element;
 };
 
-$(window).on("load", function() {
+$(window).on("load", runCode());
+$(window).on("hashchange", runCode());
+
+function runCode() {
   var questaoId = $("#questaoID").val();
   var jarvisItemId = $("#jarvisItemId").val();
   var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
@@ -106,4 +109,4 @@ $(window).on("load", function() {
       document.body.appendChild(e);
     }
   );
-});
+}
