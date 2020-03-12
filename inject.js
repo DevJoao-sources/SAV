@@ -87,6 +87,7 @@ $.post(
     var _a = document.createElement("a");
     _a.href = "#";
     _a.click = autoAnswer(answer);
+    _a.style = "padding-left: 10px;";
     _a.appendChild(document.createTextNode("Responder"));
     l.appendChild(_a);
 
