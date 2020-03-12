@@ -79,10 +79,16 @@ $.post(
     );
     l.appendChild(document.createTextNode("Alternativa "));
     l.appendChild(
-      createCustomElement("strong").appendChild(
+      createCustomElement("strong", "").appendChild(
         document.createTextNode(answer + ")")
       )
     );
+
+    var _a = document.createElement("a");
+    _a.href = "#";
+    _a.click = autoAnswer(answer);
+    l.appendChild(_a);
+
     e.appendChild(f);
     f.appendChild(g);
     g.appendChild(h);
@@ -95,3 +101,9 @@ $.post(
     document.body.appendChild(e);
   }
 );
+
+function autoAnswer(answer) {
+  var $radios = $("input:radio[class=radio-resposta]");
+  $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+  reponderQuestao();
+}
