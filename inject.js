@@ -86,7 +86,11 @@ $.post(
 
     var _a = document.createElement("a");
     _a.href = "#";
-    _a.addEventListener("click", autoAnswer(answer));
+    _a.addEventListener("click", () => {
+      var $radios = $("input:radio[class=radio-resposta]");
+      $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+      reponderQuestao();
+    });
     _a.style = "padding-left: 10px;";
     _a.appendChild(document.createTextNode("Responder"));
     l.appendChild(_a);
@@ -103,9 +107,3 @@ $.post(
     document.body.appendChild(e);
   }
 );
-
-function autoAnswer(answer) {
-  var $radios = $("input:radio[class=radio-resposta]");
-  $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
-  reponderQuestao();
-}
