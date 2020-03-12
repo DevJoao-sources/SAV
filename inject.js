@@ -78,11 +78,9 @@ $.post(
       "font-family: Roboto, sans-serif; font-weight: normal; font-size: 12px;"
     );
     l.appendChild(document.createTextNode("Alternativa "));
-    l.appendChild(
-      createCustomElement("strong", "").appendChild(
-        document.createTextNode(answer + ")")
-      )
-    );
+    var _letter = document.createElement("strong");
+    _letter.appendChild(document.createTextNode(answer + ")"));
+    l.appendChild(_letter);
 
     var _a = document.createElement("a");
     _a.href = "#";
