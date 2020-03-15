@@ -118,6 +118,7 @@ $("#Responder").attr("onclick", "refreshAnswer()");
 
 function updadeStatus(text) {
   $("#status").html(text);
+  console.log("SAV: Status update");
 }
 
 function refreshAnswer() {
