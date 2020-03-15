@@ -65,6 +65,7 @@ function createBody(answer) {
   _a.addEventListener("click", () => {
     var $radios = $("input:radio[class=radio-resposta]");
     $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+    refreshAnswer();
     reponderQuestao();
   });
   _a.appendChild(document.createTextNode("Responder"));
