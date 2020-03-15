@@ -56,9 +56,7 @@ function createBody(answer) {
     "span",
     "font-family: Roboto, sans-serif; font-weight: normal; font-size: 12px;"
   );
-  l.appendChild(document.createTextNode("Alternativa "));
-  var _letter = document.createElement("strong");
-  _letter.appendChild(document.createTextNode(answer + ")"));
+  l.appendChild(document.createTextNode(answer));
   l.appendChild(_letter);
 
   var _a = document.createElement("a");
@@ -112,7 +110,9 @@ function runCode() {
         '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
 
       document.body.appendChild(createExclamation());
-      document.body.appendChild(createBody(answer));
+      document.body.appendChild(
+        createBody("Alternativa: <strong>" + answer + ")</strong>")
+      );
     }
   );
 }
@@ -120,7 +120,7 @@ function runCode() {
 $("#Responder").attr("onclick", "refreshAnswer()");
 
 function refreshAnswer() {
-  document.body.appendChild(createBody("loading"));
+  document.body.appendChild(createBody("Carregando..."));
   setTimeout(function() {
     runCode();
   }, 6000);
