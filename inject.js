@@ -80,6 +80,7 @@ function createBody(answer) {
   return e;
 }
 
+var first = true;
 function runCode() {
   var questaoId = $("#questaoID").val();
   var jarvisItemId = $("#jarvisItemId").val();
@@ -108,9 +109,12 @@ function runCode() {
       document.head.innerHTML +=
         '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
 
-      document.body.appendChild(createExclamation());
-      document.body.appendChild(createBody(answer));
-      updadeStatus(`Alternativa: <strong>${answer})</strong>`);
+      if (first) {
+        document.body.appendChild(createExclamation());
+        document.body.appendChild(createBody(answer));
+      }
+      first = false;
+      updadeStatus(`Alternativa <strong>${answer})</strong>`);
     }
   );
 }
