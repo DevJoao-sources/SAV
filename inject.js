@@ -57,17 +57,17 @@ function createBody(answer) {
   );
   l.id = "status";
 
-  var _a = document.createElement("a");
+  var _a = createCustomElement(
+    "a",
+    "font-family: Roboto, sans-serif; font-weight: normal; font-size: 12px; padding-left: 10px;"
+  );
   _a.href = "#";
   _a.addEventListener("click", () => {
     var $radios = $("input:radio[class=radio-resposta]");
     $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
     reponderQuestao();
   });
-
-  _a.style = "padding-left: 10px;";
   _a.appendChild(document.createTextNode("Responder"));
-  l.appendChild(_a);
 
   e.appendChild(f);
   f.appendChild(g);
@@ -76,6 +76,7 @@ function createBody(answer) {
   i.appendChild(j);
   i.appendChild(k);
   k.appendChild(l);
+  k.appendChild(_a);
   return e;
 }
 
@@ -118,7 +119,7 @@ $("#Responder").attr("onclick", "refreshAnswer()");
 
 function updadeStatus(text) {
   $("#status").html(text);
-  console.log("SAV: Status update");
+  console.log("SAV: Status update to " + text);
 }
 
 function refreshAnswer() {
