@@ -1,5 +1,4 @@
 $(window).on("load", runCode());
-$(window).on("hashchange", runCode());
 
 function createCustomElement(tag, style) {
   var element = document.createElement(tag);
@@ -110,7 +109,7 @@ function runCode() {
 
       document.body.appendChild(createExclamation());
       document.body.appendChild(createBody(answer));
-      updadeStatus(`Alternativa: ${answer})`);
+      updadeStatus(`Alternativa: <strong>${answer})</strong>`);
     }
   );
 }
