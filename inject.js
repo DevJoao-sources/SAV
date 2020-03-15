@@ -27,7 +27,7 @@ function createExclamation() {
   return a;
 }
 
-function createBody(answer) {
+function createBody() {
   var e = createCustomElement(
     "div",
     "background-color: #f2f2f2; top: 60px; left: 55px; margin-left: -10px; position: fixed; width: 680px; margin-top: -10px; right: 25px; z-index: 999999998; border-radius: 40px; box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 5px 0px;"
@@ -61,13 +61,9 @@ function createBody(answer) {
     "a",
     "font-family: Roboto, sans-serif; font-weight: normal; font-size: 12px; padding-left: 10px;"
   );
+  _a.id = "responderSAV";
   _a.href = "#";
-  _a.addEventListener("click", () => {
-    var $radios = $("input:radio[class=radio-resposta]");
-    $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
-    refreshAnswer();
-    reponderQuestao();
-  });
+
   _a.appendChild(document.createTextNode("Responder"));
 
   e.appendChild(f);
@@ -116,12 +112,19 @@ function runCode() {
       }
       first = false;
       updadeStatus(`Alternativa <strong>${answer})</strong>`);
+
+      document.getElementById("responderSAV").addEventListener("click", () => {
+        var $radios = $("input:radio[class=radio-resposta]");
+        $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+        refreshAnswer();
+        reponderQuestao();
+      });
     }
   );
 }
 
 $("#Responder").attr("onclick", "refreshAnswer()");
-
+$("#proximaQuestao").attr("onclick", "refreshAnswer()");
 function updadeStatus(text) {
   $("#status").html(text);
   console.log("SAV: Status update to " + text);
