@@ -57,7 +57,6 @@ function createBody(answer) {
     "font-family: Roboto, sans-serif; font-weight: normal; font-size: 12px;"
   );
   l.appendChild(document.createTextNode(answer));
-  l.appendChild(_letter);
 
   var _a = document.createElement("a");
   _a.href = "#";
