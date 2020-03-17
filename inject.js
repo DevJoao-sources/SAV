@@ -89,6 +89,8 @@ function checkAnswer() {
   var grupoaulaID = $("#grupoaulaID").val();
   var qtdQuestoes = $("#qtdQuestoes").val();
 
+  var answer;
+
   $.post(
     basepath + "reforco/responderQuestao",
     {
@@ -103,13 +105,15 @@ function checkAnswer() {
     },
     e => {
       var response = e[0];
-      return response.letra_correta;
+      answer = response.letra_correta;
     }
   );
+  return answer;
 }
-var answer = checkAnswer();
 
 function runCode() {
+  var answer = checkAnswer();
+
   document.head.innerHTML +=
     '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
 
@@ -146,7 +150,6 @@ function executeAnswer() {
   var rand = randomInt(120000, 300000);
   var interval = setInterval(answer, rand);
   var index = 0;
-  console.log(rand / 60000);
   function answer() {
     console.log("Execute answer!");
     if (index === 4) {
@@ -155,6 +158,7 @@ function executeAnswer() {
     index += 1;
     checkAnOption(checkAnswer());
     reponderQuestao();
+    refreshAnswer();
   }
 }
 
