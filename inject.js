@@ -79,18 +79,18 @@ function createBody() {
   return e;
 }
 
-var questaoId = $("#questaoID").val();
-var jarvisItemId = $("#jarvisItemId").val();
-var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
-var aulaID = $("#aulaID").val();
-var disciplinaID = $("#disciplinaID").val();
-var grupoaulaID = $("#grupoaulaID").val();
-var qtdQuestoes = $("#qtdQuestoes").val();
-
-var answer = [];
 var first = true;
+function checkAnswer() {
+  var questaoId = $("#questaoID").val();
+  var jarvisItemId = $("#jarvisItemId").val();
+  var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
+  var aulaID = $("#aulaID").val();
+  var disciplinaID = $("#disciplinaID").val();
+  var grupoaulaID = $("#grupoaulaID").val();
+  var qtdQuestoes = $("#qtdQuestoes").val();
 
-function runCode() {
+  var answer;
+
   $.post(
     basepath + "reforco/responderQuestao",
     {
@@ -106,25 +106,31 @@ function runCode() {
     e => {
       var response = e[0];
       answer = response.letra_correta;
-
-      document.head.innerHTML +=
-        '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
-
-      if (first) {
-        document.body.appendChild(createExclamation());
-        document.body.appendChild(createBody());
-      }
-      first = false;
-      updadeStatus(`Alternativa <strong>${answer})</strong>`);
-
-      $("#responderSAV").click(() => {
-        var $radios = $("input:radio[class=radio-resposta]");
-        $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
-        refreshAnswer();
-        reponderQuestao();
-      });
+      console.log(answer);
     }
   );
+  return answer;
+}
+
+function runCode() {
+  var answer = checkAnswer();
+
+  document.head.innerHTML +=
+    '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
+
+  if (first) {
+    document.body.appendChild(createExclamation());
+    document.body.appendChild(createBody());
+  }
+  first = false;
+  updadeStatus(`Alternativa <strong>${answer})</strong>`);
+
+  $("#responderSAV").click(() => {
+    var $radios = $("input:radio[class=radio-resposta]");
+    $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+    refreshAnswer();
+    reponderQuestao();
+  });
 }
 
 function updadeStatus(text) {
@@ -143,16 +149,15 @@ function checkAnOption(answer) {
 
 function executeAnswer() {
   var rand = randomInt(120000, 300000);
-  var interval = setInterval(responder, rand);
+  var interval = setInterval(answer, rand);
   var index = 0;
-  console.log(rand / 60000 + " minutos");
-  function responder() {
+  function answer() {
     console.log("Execute answer!");
     if (index === 4) {
       clearInterval(interval);
     }
     index += 1;
-    checkAnOption(answer);
+    checkAnOption(checkAnswer());
     reponderQuestao();
     refreshAnswer();
   }
