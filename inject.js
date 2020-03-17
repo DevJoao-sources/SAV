@@ -154,8 +154,9 @@ function executeAnswer() {
       clearInterval(interval);
     }
     index += 1;
+    console.log(answer);
     checkAnOption(answer);
-    reponderQuestao();
+    // reponderQuestao();
     refreshAnswer();
   }
 }
