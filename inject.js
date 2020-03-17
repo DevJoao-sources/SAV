@@ -80,8 +80,6 @@ function createBody() {
 }
 
 var first = true;
-var answer = [];
-
 function checkAnswer() {
   var questaoId = $("#questaoID").val();
   var jarvisItemId = $("#jarvisItemId").val();
@@ -105,13 +103,13 @@ function checkAnswer() {
     },
     e => {
       var response = e[0];
-      answer = response.letra_correta;
+      return response.letra_correta;
     }
   );
 }
+var answer = checkAnswer();
 
 function runCode() {
-  checkAnswer();
   document.head.innerHTML +=
     '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
 
@@ -145,16 +143,18 @@ function checkAnOption(answer) {
 }
 
 function executeAnswer() {
-  var interval = setInterval(answer, randomInt(120000, 300000));
+  var rand = randomInt(120000, 300000);
+  var interval = setInterval(answer, rand);
   var index = 0;
+  console.log(rand / 60000);
   function answer() {
+    console.log("Execute answer!");
     if (index === 4) {
       clearInterval(interval);
     }
     index += 1;
-    checkAnswer();
-    checkAnOption(answer);
-    // reponderQuestao();
+    checkAnOption(checkAnswer());
+    reponderQuestao();
   }
 }
 
