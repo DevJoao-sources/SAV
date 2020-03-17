@@ -79,8 +79,10 @@ function createBody() {
   return e;
 }
 
+var answer = [];
 var first = true;
-function checkAnswer() {
+
+function runCode() {
   var questaoId = $("#questaoID").val();
   var jarvisItemId = $("#jarvisItemId").val();
   var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
@@ -106,31 +108,25 @@ function checkAnswer() {
     e => {
       var response = e[0];
       answer = response.letra_correta;
-      console.log(answer);
+
+      document.head.innerHTML +=
+        '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
+
+      if (first) {
+        document.body.appendChild(createExclamation());
+        document.body.appendChild(createBody());
+      }
+      first = false;
+      updadeStatus(`Alternativa <strong>${answer})</strong>`);
+
+      $("#responderSAV").click(() => {
+        var $radios = $("input:radio[class=radio-resposta]");
+        $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+        refreshAnswer();
+        reponderQuestao();
+      });
     }
   );
-  return answer;
-}
-
-function runCode() {
-  var answer = checkAnswer();
-
-  document.head.innerHTML +=
-    '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
-
-  if (first) {
-    document.body.appendChild(createExclamation());
-    document.body.appendChild(createBody());
-  }
-  first = false;
-  updadeStatus(`Alternativa <strong>${answer})</strong>`);
-
-  $("#responderSAV").click(() => {
-    var $radios = $("input:radio[class=radio-resposta]");
-    $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
-    refreshAnswer();
-    reponderQuestao();
-  });
 }
 
 function updadeStatus(text) {
@@ -149,15 +145,16 @@ function checkAnOption(answer) {
 
 function executeAnswer() {
   var rand = randomInt(120000, 300000);
-  var interval = setInterval(answer, rand);
+  var interval = setInterval(responder, rand);
   var index = 0;
-  function answer() {
+  console.log(rand / 60000 + " minutos");
+  function responder() {
     console.log("Execute answer!");
     if (index === 4) {
       clearInterval(interval);
     }
     index += 1;
-    checkAnOption(checkAnswer());
+    checkAnOption(answer);
     reponderQuestao();
     refreshAnswer();
   }
