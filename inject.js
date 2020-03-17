@@ -154,7 +154,7 @@ function executeAnswer() {
     index += 1;
     checkAnswer();
     checkAnOption(answer);
-    reponderQuestao();
+    // reponderQuestao();
   }
 }
 
