@@ -1,4 +1,6 @@
 $(window).on("load", runCode());
+$("#Responder").attr("onclick", "refreshAnswer()");
+$("#proximaQuestao").attr("onclick", "refreshAnswer()");
 
 function createCustomElement(tag, style) {
   var element = document.createElement(tag);
@@ -78,7 +80,9 @@ function createBody() {
 }
 
 var first = true;
-function runCode() {
+var answer = [];
+
+function checkAnswer() {
   var questaoId = $("#questaoID").val();
   var jarvisItemId = $("#jarvisItemId").val();
   var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
@@ -100,34 +104,58 @@ function runCode() {
       csrf_name: $.cookie("csrf_cookie_name")
     },
     e => {
-      $("#load").hide();
       var response = e[0];
       answer = response.letra_correta;
-      document.head.innerHTML +=
-        '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
-
-      if (first) {
-        document.body.appendChild(createExclamation());
-        document.body.appendChild(createBody(answer));
-      }
-      first = false;
-      updadeStatus(`Alternativa <strong>${answer})</strong>`);
-
-      document.getElementById("responderSAV").addEventListener("click", () => {
-        var $radios = $("input:radio[class=radio-resposta]");
-        $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
-        refreshAnswer();
-        reponderQuestao();
-      });
     }
   );
 }
 
-$("#Responder").attr("onclick", "refreshAnswer()");
-$("#proximaQuestao").attr("onclick", "refreshAnswer()");
+function runCode() {
+  checkAnswer();
+  document.head.innerHTML +=
+    '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
+
+  if (first) {
+    document.body.appendChild(createExclamation());
+    document.body.appendChild(createBody());
+  }
+  first = false;
+  updadeStatus(`Alternativa <strong>${answer})</strong>`);
+
+  $("#responderSAV").click(() => {
+    var $radios = $("input:radio[class=radio-resposta]");
+    $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+    refreshAnswer();
+    reponderQuestao();
+  });
+}
+
 function updadeStatus(text) {
   $("#status").html(text);
   console.log("SAV: Status update to " + text);
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function checkAnOption(answer) {
+  var $radios = $("input:radio[class=radio-resposta]");
+  $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+}
+
+function executeAnswer() {
+  var interval = setInterval(answer, randomInt(120000, 300000));
+  var index = 0;
+  function answer() {
+    if (index === 4) {
+      clearInterval(interval);
+    }
+    index += 1;
+    checkAnswer();
+    checkAnOption(answer);
+    reponderQuestao();
+  }
 }
 
 function refreshAnswer() {
