@@ -129,7 +129,7 @@ function runCode() {
   );
 }
 
-$("#responderTodasSAV").click(executeAnswer());
+$("#responderTodasSAV").click(executeAnswer);
 
 function updadeStatus(text) {
   $("#status").html(text);
