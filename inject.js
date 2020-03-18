@@ -125,13 +125,13 @@ function runCode() {
         refreshAnswer();
         reponderQuestao();
       });
+      $("#responderTodasSAV").click(() => {
+        console.log("foi");
+        executeAnswer();
+      });
     }
   );
 }
-
-$("#responderTodasSAV").click(() => {
-  executeAnswer();
-});
 
 function updadeStatus(text) {
   $("#status").html(text);
