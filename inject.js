@@ -133,7 +133,7 @@ function runCode() {
       $("#responderTodasSAV").click(() => {
         console.log("SAV: Stating auto answer");
         executeAnswer();
-        $("#responderTodasSAV").css("color: green;");
+        $("#responderTodasSAV").css("color", "green");
       });
     }
   );
