@@ -54,6 +54,8 @@ function createBody() {
   );
   var j = createCustomElement("span", "font-family: Roboto, sans-serif;"); // Append no I
   j.appendChild(document.createTextNode("A resposta da questão será:"));
+  j.id = "statusHeader";
+
   var k = createCustomElement("div", "line-height: 14px;"); // Append no I
   var l = createCustomElement(
     "span",
@@ -117,7 +119,10 @@ function runCode() {
         document.body.appendChild(createBody());
       }
       first = false;
-      updadeStatus(`Alternativa <strong>${answer})</strong>`);
+      updadeStatus(
+        "A resposta da questão será:",
+        `Alternativa <strong>${answer})</strong>`
+      );
 
       $("#responderSAV").click(() => {
         var $radios = $("input:radio[class=radio-resposta]");
@@ -128,14 +133,16 @@ function runCode() {
       $("#responderTodasSAV").click(() => {
         console.log("SAV: Stating auto answer");
         executeAnswer();
+        $("#responderTodasSAV").css("color: green;");
       });
     }
   );
 }
 
-function updadeStatus(text) {
-  $("#status").html(text);
-  console.log("SAV: Status update to " + text);
+function updadeStatus(header, text) {
+  $("#statusHeader").html(header);
+  $("#status").html(text || " ");
+  console.log("SAV: Status update to: \n" + header + "\n" + text || " ");
 }
 
 function randomInt(min, max) {
@@ -153,10 +160,17 @@ function executeAnswer() {
   var index = 0;
   console.log("SAV: Exectuing task every " + rand / 60000 + " minutes");
   updadeStatus(
-    "Executando respostas automatica a cada " + rand / 60000 + " minutos"
+    "Respostas automatica ativada:",
+    "Respondendo a cada " + rand / 60000 + " minutos"
   );
   function responder() {
     console.log("SAV: Answering question with option " + answer + ")");
+    updadeStatus(
+      "Respostas automatica ativada:",
+      "Respondendo pergunta com a alternativa <strong> " +
+        answer +
+        ") </strong>"
+    );
     if (index === 3) {
       clearInterval(interval);
     }
@@ -167,12 +181,9 @@ function executeAnswer() {
   }
 }
 
-function refreshAnswer(alert) {
+function refreshAnswer() {
   updadeStatus("Carregando...");
   setTimeout(function() {
     runCode();
-    if (alert) {
-      updadeStatus("Questão respondinda com <strong>" + answer + ")</strong>");
-    }
   }, 5000);
 }
