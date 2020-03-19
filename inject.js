@@ -20,7 +20,7 @@ function createExclamation() {
   var c = createCustomElement("div", "width: 100%; height: 100%;");
   var d = createCustomElement(
     "span",
-    "animation: 2s ease 0s 1 normal none running zoomIn; color: red; font-family: Roboto, sans-serif; font-size: 1.5cm; font-weight: bolder; font-family: Roboto;"
+    "animation: 2s ease 0s 1 normal none running zoomIn; cursor: pointer; color: red; font-family: Roboto, sans-serif; font-size: 1.5cm; font-weight: bolder; font-family: Roboto;"
   );
   d.appendChild(document.createTextNode("!"));
   d.id = "responderTodasSAV";
@@ -126,7 +126,7 @@ function runCode() {
         reponderQuestao();
       });
       $("#responderTodasSAV").click(() => {
-        console.log("foi");
+        console.log("SAV: Stating auto answer");
         executeAnswer();
       });
     }
@@ -152,21 +152,27 @@ function executeAnswer() {
   var interval = setInterval(responder, rand);
   var index = 0;
   console.log("SAV: Exectuing task every " + rand / 60000 + " minutes");
+  updadeStatus(
+    "Executando respostas automatica a cada " + rand / 60000 + " minutos"
+  );
   function responder() {
-    console.log("SAV: Answering question with ");
+    console.log("SAV: Answering question with option " + answer + ")");
     if (index === 3) {
       clearInterval(interval);
     }
     index += 1;
     checkAnOption(answer);
     reponderQuestao();
-    refreshAnswer();
+    refreshAnswer(true);
   }
 }
 
-function refreshAnswer() {
+function refreshAnswer(alert) {
   updadeStatus("Carregando...");
   setTimeout(function() {
     runCode();
+    if (alert) {
+      updadeStatus("Questão respondinda com <strong>" + answer + ")</strong>");
+    }
   }, 5000);
 }
