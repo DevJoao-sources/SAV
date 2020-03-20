@@ -125,8 +125,7 @@ function runCode() {
       );
 
       $("#responderSAV").click(() => {
-        var $radios = $("input:radio[class=radio-resposta]");
-        $radios.filter("[data-opcao=" + answer + "]").prop("checked", true);
+        checkAnOption(answer);
         refreshAnswer();
         reponderQuestao();
       });
@@ -177,7 +176,7 @@ function executeAnswer() {
     index += 1;
     checkAnOption(answer);
     reponderQuestao();
-    refreshAnswer(true);
+    refreshAnswer();
   }
 }
 
