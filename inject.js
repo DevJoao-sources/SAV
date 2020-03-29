@@ -86,6 +86,34 @@ function createBody() {
 var answer = [];
 var first = true;
 
+function updateAnswer() {
+  var questaoId = $("#questaoID").val();
+  var jarvisItemId = $("#jarvisItemId").val();
+  var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
+  var aulaID = $("#aulaID").val();
+  var disciplinaID = $("#disciplinaID").val();
+  var grupoaulaID = $("#grupoaulaID").val();
+  var qtdQuestoes = $("#qtdQuestoes").val();
+
+  $.post(
+    basepath + "reforco/responderQuestao",
+    {
+      questaoId: questaoId,
+      jarvisItemId: jarvisItemId,
+      resposta: resposta,
+      aulaId: aulaID,
+      disciplinaId: disciplinaID,
+      grupoaulaID: grupoaulaID,
+      qtdQuestoes: qtdQuestoes,
+      csrf_name: $.cookie("csrf_cookie_name")
+    },
+    e => {
+      var response = e[0];
+      answer = response.letra_correta;
+    }
+  );
+}
+
 function runCode() {
   var questaoId = $("#questaoID").val();
   var jarvisItemId = $("#jarvisItemId").val();
@@ -119,6 +147,7 @@ function runCode() {
         document.body.appendChild(createBody());
       }
       first = false;
+
       updadeStatus(
         "A resposta da questão será:",
         `Alternativa <strong>${answer})</strong>`
@@ -129,6 +158,7 @@ function runCode() {
         refreshAnswer();
         reponderQuestao();
       });
+
       $("#responderTodasSAV").click(() => {
         console.log("SAV: Stating auto answer");
         executeAnswer();
@@ -163,7 +193,7 @@ function executeAnswer() {
     "Respondendo a cada " + rand / 60000 + " minutos"
   );
   function responder() {
-    console.log("SAV: Answering question with option " + answer + ")");
+    console.warn("SAV: Answering question with option " + answer + ")");
     updadeStatus(
       "Respostas automatica ativada:",
       "Respondendo pergunta com a alternativa <strong> " +
@@ -174,6 +204,7 @@ function executeAnswer() {
       clearInterval(interval);
     }
     index += 1;
+    updateAnswer();
     checkAnOption(answer);
     reponderQuestao();
     refreshAnswer();
