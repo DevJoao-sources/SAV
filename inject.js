@@ -86,7 +86,7 @@ function createBody() {
 var answer = [];
 var first = true;
 
-function updateAnswer() {
+function runCode() {
   var questaoId = $("#questaoID").val();
   var jarvisItemId = $("#jarvisItemId").val();
   var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
@@ -110,38 +110,34 @@ function updateAnswer() {
     e => {
       var response = e[0];
       answer = response.letra_correta;
+
+      document.head.innerHTML +=
+        '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
+
+      if (first) {
+        document.body.appendChild(createExclamation());
+        document.body.appendChild(createBody());
+      }
+      first = false;
+
+      updadeStatus(
+        "A resposta da questão será:",
+        `Alternativa <strong>${answer})</strong>`
+      );
+
+      $("#responderSAV").click(() => {
+        checkAnOption(answer);
+        refreshAnswer();
+        reponderQuestao();
+      });
+
+      $("#responderTodasSAV").click(() => {
+        console.log("SAV: Stating auto answer");
+        executeAnswer();
+        $("#responderTodasSAV").css("color", "green");
+      });
     }
   );
-}
-
-function runCode() {
-  updateAnswer();
-
-  document.head.innerHTML +=
-    '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
-
-  if (first) {
-    document.body.appendChild(createExclamation());
-    document.body.appendChild(createBody());
-  }
-  first = false;
-
-  updadeStatus(
-    "A resposta da questão será:",
-    `Alternativa <strong>${answer})</strong>`
-  );
-
-  $("#responderSAV").click(() => {
-    checkAnOption(answer);
-    refreshAnswer();
-    reponderQuestao();
-  });
-
-  $("#responderTodasSAV").click(() => {
-    console.log("SAV: Stating auto answer");
-    executeAnswer();
-    $("#responderTodasSAV").css("color", "green");
-  });
 }
 
 function updadeStatus(header, text) {
