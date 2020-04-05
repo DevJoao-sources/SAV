@@ -126,9 +126,8 @@ function runCode() {
       );
 
       $("#responderSAV").click(() => {
-        checkAnOption(answer);
+        newResponder();
         refreshAnswer();
-        reponderQuestao();
       });
 
       $("#responderTodasSAV").click(() => {
