@@ -178,10 +178,8 @@ function newResponder() {
     function responderQ(e) {
       $("#load").hide();
       var response = e[0];
-      checkAnOption(responde.letra_correta);
-      console.log("Alternativa correta: " + response.letra_correta);
+      checkAnOption(response.letra_correta);
       reponderQuestao();
-      console.log("Resposta computada, passando para proxima");
     }
   );
 }
