@@ -86,7 +86,7 @@ function createBody() {
 var answer = [];
 var first = true;
 
-async function updateAnswer() {
+function updateAnswer() {
   var questaoId = $("#questaoID").val();
   var jarvisItemId = $("#jarvisItemId").val();
   var resposta = $('input[name="questao-' + questaoId + '"]:checked').val();
@@ -115,7 +115,7 @@ async function updateAnswer() {
 }
 
 function runCode() {
-  await updateAnswer();
+  updateAnswer();
 
   document.head.innerHTML +=
     '<style>@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");</style>';
@@ -182,7 +182,7 @@ function newResponder() {
     function responderQ(e) {
       $("#load").hide();
       var response = e[0];
-      checkAnOption(responde.letra_correta)
+      checkAnOption(responde.letra_correta);
       console.log("Alternativa correta: " + response.letra_correta);
       reponderQuestao();
       console.log("Resposta computada, passando para proxima");
@@ -211,9 +211,7 @@ function executeAnswer() {
       clearInterval(interval);
     }
     index += 1;
-    await updateAnswer();
-    checkAnOption(answer);
-    reponderQuestao();
+    newResponder();
     refreshAnswer();
   }
 }
